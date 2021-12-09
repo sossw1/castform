@@ -6,7 +6,7 @@ const main = async () => {
   const mapboxData = await mapbox.request('New York, NY');
   const coordinateString = mapbox.parseCoordinateString(mapboxData);
   const weatherstackData = await weatherstack.request(coordinateString);
-  console.log(weatherstackData.data);
+  const currentWeatherData = weatherstackData.data.data.current;
 };
 
 main();
