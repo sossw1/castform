@@ -36,5 +36,11 @@ export default {
     const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${query}.json?access_token=${process.env.MB_API_KEY}&limit=1`;
 
     return axios.get<MapboxResponse>(url);
+  },
+  parseCoordinateString(response: AxiosResponse<MapboxResponse>): string {
+    const coordinates = response.data.features[0].center;
+    // Reverse order required for weatherstack
+    const coordinateString = coordinates.reverse().toString();
+    return coordinateString;
   }
 };
