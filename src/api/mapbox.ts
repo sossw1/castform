@@ -35,7 +35,22 @@ export default {
   async request(query: string): Promise<AxiosResponse<MapboxData> | null> {
     const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${query}.json?access_token=${process.env.MB_API_KEY}&limit=1`;
 
-    return axios.get<MapboxData>(url);
+    try {
+      const response = await axios.request<MapboxData>({
+        method: 'get',
+        url
+      });
+
+      if (response.data.features.length === 0) {
+        console.log('Unable to find location');
+        return null;
+      }
+
+      return response;
+    } catch (error) {
+      console.log('Unable to connect with geocoding service');
+      return null;
+    }
   },
   parseCoordinateString(response: AxiosResponse<MapboxData>): string {
     const coordinates = response.data.features[0].center;
