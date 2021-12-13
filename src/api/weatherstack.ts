@@ -1,7 +1,7 @@
 import '../env';
 import axios, { AxiosResponse } from 'axios';
 
-interface WeatherstackResponse {
+interface WeatherstackData {
   status: number;
   statusText: string;
   headers: any;
@@ -47,8 +47,8 @@ interface WeatherstackResponse {
 }
 
 export default {
-  request(query: string): Promise<AxiosResponse<WeatherstackResponse, any>> {
+  request(query: string): Promise<AxiosResponse<WeatherstackData, any>> {
     const url = `http://api.weatherstack.com/current?access_key=${process.env.WS_API_KEY}&query=${query}&units=f`;
-    return axios.get<WeatherstackResponse>(url);
+    return axios.get<WeatherstackData>(url);
   }
 };
