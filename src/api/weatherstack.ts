@@ -40,8 +40,25 @@ interface WeatherstackData {
 }
 
 export default {
-  request(query: string): Promise<AxiosResponse<WeatherstackData, any>> {
+  async request(
+    query: string
+  ): Promise<AxiosResponse<WeatherstackData> | null> {
     const url = `http://api.weatherstack.com/current?access_key=${process.env.WS_API_KEY}&query=${query}&units=f`;
-    return axios.get<WeatherstackData>(url);
+
+    try {
+      const response = await axios.request<WeatherstackData>({
+        method: 'get',
+        url
+      });
+
+      if (!response.data.request) {
+        console.log('Unable to find weather');
+        return null;
+      }
+      return response;
+    } catch (error) {
+      console.log('Unable to connect to weather service');
+      return null;
+    }
   }
 };
