@@ -7,6 +7,7 @@ const main = async () => {
   if (mapboxData !== null) {
     console.log(mapboxData.data.features[0].place_name);
     const coordinateString = mapbox.parseCoordinateString(mapboxData);
+    const weatherstackData = await weatherstack.request(coordinateString);
   }
 };
 
