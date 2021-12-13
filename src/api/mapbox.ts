@@ -1,7 +1,7 @@
 import '../env';
 import axios, { AxiosResponse } from 'axios';
 
-interface MapboxResponse {
+interface MapboxData {
   type: string;
   query: Array<string>;
   features: Array<{
@@ -32,12 +32,12 @@ interface MapboxResponse {
 }
 
 export default {
-  request(query: string): Promise<AxiosResponse<MapboxResponse, string>> {
+  async request(query: string): Promise<AxiosResponse<MapboxData> | null> {
     const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${query}.json?access_token=${process.env.MB_API_KEY}&limit=1`;
 
-    return axios.get<MapboxResponse>(url);
+    return axios.get<MapboxData>(url);
   },
-  parseCoordinateString(response: AxiosResponse<MapboxResponse>): string {
+  parseCoordinateString(response: AxiosResponse<MapboxData>): string {
     const coordinates = response.data.features[0].center;
     // Reverse order required for weatherstack
     const coordinateString = coordinates.reverse().toString();
