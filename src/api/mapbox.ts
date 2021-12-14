@@ -52,8 +52,8 @@ export default {
       return null;
     }
   },
-  parseCoordinateString(response: AxiosResponse<MapboxData>): string {
-    let { center } = response.data.features[0];
+  parseCoordinateString({ data }: AxiosResponse<MapboxData>): string {
+    let { center } = data.features[0];
     // Reverse order required for weatherstack
     const coordinates = center.reverse().toString();
     return coordinates;
